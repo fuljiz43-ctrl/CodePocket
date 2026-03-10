@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CodePocket</string>
+    <string name="title_add_snippet">Snippet Baru</string>
+    <string name="title_edit_snippet">Edit Snippet</string>
+    <string name="hint_search">Cari snippet, tag, code...</string>
+    <string name="label_category">Kategori</string>
+    <string name="label_tags">Tags</string>
+    <string name="label_code">Code / Command</string>
+    <string name="btn_save">Simpan Snippet</string>
+    <string name="btn_add_tag">Tambah</string>
+    <string name="empty_state">Belum ada snippet</string>
+    <string name="empty_state_hint">Tap + untuk tambah snippet baru</string>
+    <string name="copied">Copied!</string>
+    <string name="delete_confirm_title">Hapus Snippet</string>
+    <string name="delete_confirm_msg">Yakin ingin menghapus snippet ini?</string>
+    <string name="btn_delete">Hapus</string>
+    <string name="btn_cancel">Batal</string>
+</resources>
