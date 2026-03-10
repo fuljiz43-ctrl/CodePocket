@@ -124,7 +124,7 @@
                     android:layout_marginStart="6dp"
                     android:text="#bash #git"
                     android:textSize="11sp"
-                    android:textColor="?attr/colorTertiary"
+                    android:textColor="?attr/colorPrimary"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:fontFamily="monospace"/>

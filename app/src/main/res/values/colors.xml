@@ -18,4 +18,7 @@
     <color name="code_bg_light">#F5F5F5</color>
     <!-- Code background dark -->
     <color name="code_bg_dark">#1E1E1E</color>
+    <!-- Multi-select bar background (M2 compatible) -->
+    <color name="purple_100">#EDE7F6</color>
+    <color name="purple_100_dark">#311B92</color>
 </resources>
