@@ -1,7 +1,12 @@
 package com.codepocket.app
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import com.codepocket.app.database.AppDatabase
 import com.codepocket.app.database.SnippetRepository
 import com.codepocket.app.model.Snippet
@@ -17,7 +22,7 @@ class SnippetViewModel(application: Application) : AndroidViewModel(application)
     private val _selectedSnippets = MutableLiveData<Set<Long>>(emptySet())
 
     val selectedSnippets: LiveData<Set<Long>> = _selectedSnippets
-    val isMultiSelectMode: LiveData<Boolean> = Transformations.map(_selectedSnippets) { it.isNotEmpty() }
+    val isMultiSelectMode: LiveData<Boolean> = _selectedSnippets.map { it.isNotEmpty() }
 
     val displaySnippets: MediatorLiveData<List<Snippet>> = MediatorLiveData()
 

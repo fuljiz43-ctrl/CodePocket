@@ -7,10 +7,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  # ═══════════════════════════════════════════════════════════════
-  # JOB 1: Build APK → upload sebagai artifact
-  # Jalan otomatis setiap kamu git push dari Termux
-  # ═══════════════════════════════════════════════════════════════
   build:
     name: 🏗️ Build APK
     runs-on: ubuntu-latest
@@ -26,13 +22,10 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      # Fix: Download gradle-wrapper.jar yang valid dari GitHub resmi
-      # Ini diperlukan karena jar di repo adalah placeholder
       - name: 🔧 Fix gradle-wrapper.jar
         run: |
           curl -sL "https://github.com/gradle/gradle/raw/v8.4.0/gradle/wrapper/gradle-wrapper.jar" \
             -o gradle/wrapper/gradle-wrapper.jar
-          echo "gradle-wrapper.jar size: $(du -sh gradle/wrapper/gradle-wrapper.jar)"
 
       - name: 📦 Cache Gradle
         uses: actions/cache@v4
@@ -47,6 +40,43 @@ jobs:
       - name: 🔐 Permission gradlew
         run: chmod +x gradlew
 
+      - name: 🎨 Generate Launcher Icons
+        run: |
+          pip install pillow -q
+          python3 - << 'PYEOF'
+          from PIL import Image, ImageDraw
+          import os
+
+          def create_icon(size, path, round_icon=False):
+              img = Image.new('RGBA', (size, size), (0, 0, 0, 0))
+              draw = ImageDraw.Draw(img)
+              margin = int(size * 0.04)
+              radius = size // 2 if round_icon else int(size * 0.22)
+              draw.rounded_rectangle([margin, margin, size-margin, size-margin], radius=radius, fill=(30, 20, 60, 255))
+              bw = max(3, int(size * 0.07))
+              bx = int(size * 0.17)
+              draw.rounded_rectangle([bx, int(size*0.22), bx+bw, int(size*0.78)], radius=bw//2, fill=(124, 77, 255, 255))
+              draw.arc([int(size*0.28), int(size*0.18), size-int(size*0.18), int(size*0.62)], start=40, end=320, fill=(124, 77, 255, 255), width=max(2, int(size*0.07)))
+              px = int(size * 0.52)
+              pw = max(2, int(size * 0.06))
+              draw.rounded_rectangle([px, int(size*0.20), px+pw, int(size*0.58)], radius=pw//2, fill=(80, 200, 120, 255))
+              draw.arc([px, int(size*0.20), px+int(size*0.22), int(size*0.20)+int(size*0.22)], start=270, end=90, fill=(80, 200, 120, 255), width=max(2, int(size*0.06)))
+              lh = max(1, int(size * 0.025))
+              lx1, lx2, ly = int(size*0.17), int(size*0.83), int(size*0.70)
+              draw.rounded_rectangle([lx1, ly, lx2, ly+lh], radius=lh, fill=(80, 200, 120, 180))
+              draw.rounded_rectangle([lx1, ly+lh*2+1, int(lx1+(lx2-lx1)*0.6), ly+lh*3+1], radius=lh, fill=(80, 200, 120, 110))
+              os.makedirs(os.path.dirname(path), exist_ok=True)
+              img.save(path, 'PNG')
+              print(f'icon: {path}')
+
+          sizes = {'mipmap-mdpi':48,'mipmap-hdpi':72,'mipmap-xhdpi':96,'mipmap-xxhdpi':144,'mipmap-xxxhdpi':192}
+          base = 'app/src/main/res'
+          for folder, size in sizes.items():
+              create_icon(size, f'{base}/{folder}/ic_launcher.png', False)
+              create_icon(size, f'{base}/{folder}/ic_launcher_round.png', True)
+          print('All icons generated!')
+          PYEOF
+
       - name: 🔨 Build Debug APK
         run: ./gradlew assembleDebug --no-daemon --stacktrace
 
@@ -57,7 +87,6 @@ jobs:
           DATE=$(date +'%Y%m%d')
           find app/build/outputs/apk/debug -name "*.apk" -exec \
             cp {} "output/CodePocket-debug-${DATE}-${SHORT_SHA}.apk" \;
-          echo "--- APK Output ---"
           ls -lh output/
 
       - name: 📤 Upload APK Artifact
@@ -79,12 +108,6 @@ jobs:
           echo "### 📦 APK" >> $GITHUB_STEP_SUMMARY
           ls output/ | while read f; do echo "- \`$f\`"; done >> $GITHUB_STEP_SUMMARY
 
-  # ═══════════════════════════════════════════════════════════════
-  # JOB 2: Auto GitHub Release
-  # Jalan HANYA saat push tag dari Termux:
-  #   git tag v1.0.0
-  #   git push origin v1.0.0
-  # ═══════════════════════════════════════════════════════════════
   release:
     name: 🚀 GitHub Release
     runs-on: ubuntu-latest
@@ -117,6 +140,42 @@ jobs:
 
       - name: 🔐 Permission gradlew
         run: chmod +x gradlew
+
+      - name: 🎨 Generate Launcher Icons
+        run: |
+          pip install pillow -q
+          python3 - << 'PYEOF'
+          from PIL import Image, ImageDraw
+          import os
+
+          def create_icon(size, path, round_icon=False):
+              img = Image.new('RGBA', (size, size), (0, 0, 0, 0))
+              draw = ImageDraw.Draw(img)
+              margin = int(size * 0.04)
+              radius = size // 2 if round_icon else int(size * 0.22)
+              draw.rounded_rectangle([margin, margin, size-margin, size-margin], radius=radius, fill=(30, 20, 60, 255))
+              bw = max(3, int(size * 0.07))
+              bx = int(size * 0.17)
+              draw.rounded_rectangle([bx, int(size*0.22), bx+bw, int(size*0.78)], radius=bw//2, fill=(124, 77, 255, 255))
+              draw.arc([int(size*0.28), int(size*0.18), size-int(size*0.18), int(size*0.62)], start=40, end=320, fill=(124, 77, 255, 255), width=max(2, int(size*0.07)))
+              px = int(size * 0.52)
+              pw = max(2, int(size * 0.06))
+              draw.rounded_rectangle([px, int(size*0.20), px+pw, int(size*0.58)], radius=pw//2, fill=(80, 200, 120, 255))
+              draw.arc([px, int(size*0.20), px+int(size*0.22), int(size*0.20)+int(size*0.22)], start=270, end=90, fill=(80, 200, 120, 255), width=max(2, int(size*0.06)))
+              lh = max(1, int(size * 0.025))
+              lx1, lx2, ly = int(size*0.17), int(size*0.83), int(size*0.70)
+              draw.rounded_rectangle([lx1, ly, lx2, ly+lh], radius=lh, fill=(80, 200, 120, 180))
+              draw.rounded_rectangle([lx1, ly+lh*2+1, int(lx1+(lx2-lx1)*0.6), ly+lh*3+1], radius=lh, fill=(80, 200, 120, 110))
+              os.makedirs(os.path.dirname(path), exist_ok=True)
+              img.save(path, 'PNG')
+
+          sizes = {'mipmap-mdpi':48,'mipmap-hdpi':72,'mipmap-xhdpi':96,'mipmap-xxhdpi':144,'mipmap-xxxhdpi':192}
+          base = 'app/src/main/res'
+          for folder, size in sizes.items():
+              create_icon(size, f'{base}/{folder}/ic_launcher.png', False)
+              create_icon(size, f'{base}/{folder}/ic_launcher_round.png', True)
+          print('All icons generated!')
+          PYEOF
 
       - name: 🔨 Build APK untuk Release
         run: ./gradlew assembleDebug --no-daemon
