@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
+    android:background="@color/surface"
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="?attr/colorSurface">
+            android:background="@color/surface">
 
             <!-- Toolbar -->
             <androidx.appcompat.widget.Toolbar
@@ -43,25 +43,25 @@
                         android:textSize="22sp"
                         android:textStyle="bold"
                         android:fontFamily="monospace"
-                        android:textColor="?attr/colorPrimary"/>
+                        android:textColor="@color/primary"/>
 
                     <ImageButton
                         android:id="@+id/btnDarkMode"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:background="@android:color/transparent"
                         android:src="@drawable/ic_dark_mode"
                         android:contentDescription="Toggle dark mode"
-                        android:tint="?attr/colorOnSurface"/>
+                        android:tint="#212121"/>
 
                     <ImageButton
                         android:id="@+id/btnExport"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:background="@android:color/transparent"
                         android:src="@drawable/ic_more_vert"
                         android:contentDescription="Export/Import"
-                        android:tint="?attr/colorOnSurface"/>
+                        android:tint="#212121"/>
 
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
@@ -103,10 +103,10 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginStart="6dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:background="@android:color/transparent"
                     android:src="@drawable/ic_close"
                     android:contentDescription="Clear search"
-                    android:tint="?attr/colorOnSurface"
+                    android:tint="#212121"
                     android:visibility="gone"/>
 
             </LinearLayout>
@@ -199,10 +199,10 @@
             android:id="@+id/btnCancelSelect"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@android:color/transparent"
             android:src="@drawable/ic_close"
             android:contentDescription="Cancel selection"
-            android:tint="?attr/colorOnSurface"/>
+            android:tint="#212121"/>
 
         <TextView
             android:id="@+id/tvSelectCount"
@@ -213,31 +213,31 @@
             android:text="0 dipilih"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="?attr/colorOnSurface"/>
+            android:textColor="#212121"/>
 
         <ImageButton
             android:id="@+id/btnSelectAll"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@android:color/transparent"
             android:src="@drawable/ic_select_all"
             android:contentDescription="Select all"
-            android:tint="?attr/colorOnSurface"/>
+            android:tint="#212121"/>
 
         <ImageButton
             android:id="@+id/btnCopySelected"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@android:color/transparent"
             android:src="@drawable/ic_copy"
             android:contentDescription="Copy selected"
-            android:tint="?attr/colorOnSurface"/>
+            android:tint="#212121"/>
 
         <ImageButton
             android:id="@+id/btnDeleteSelected"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@android:color/transparent"
             android:src="@drawable/ic_delete"
             android:contentDescription="Delete selected"
             android:tint="@color/red_400"/>
@@ -279,7 +279,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginTop="12dp"
-                android:textColor="?attr/colorOnSurface"/>
+                android:textColor="#212121"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -287,7 +287,7 @@
                 android:text="Tap + untuk tambah snippet baru"
                 android:textSize="14sp"
                 android:layout_marginTop="6dp"
-                android:textColor="?attr/colorOnSurfaceVariant"/>
+                android:textColor="#757575"/>
 
         </LinearLayout>
 
